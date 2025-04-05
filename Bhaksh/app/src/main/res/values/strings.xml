@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">भक्ष</string>
+    <string name="app_name_code">bhax</string>
+    <string name="welcome_message">Welcome to भक्ष</string>
+    <string name="authors">paneer, jaat, svar</string>
+    <string name="my_location">My Location</string>
+    <string name="app_name_hindi">भक्षद्वीप</string>
+    <string name="mapbox_access_token">YOUR_MAPBOX_ACCESS_TOKEN</string>
+    
+    <!-- Navigation Titles -->
+    <string name="title_explorer">Explorer</string>
+    <string name="title_editor">Editor</string>
+    <string name="edit_title_with_token">Editor (%1$s)</string>
+    <string name="edit_title_locked">Editor (Locked)</string>
+
+    <!-- Theme Names -->
+    <string name="theme_aurora">Aurora</string>
+    <string name="theme_saanjh">सांझ</string>
+    <string name="theme_switch_label">Switch to %1$s theme</string>
+    
+    <!-- Theme Descriptions -->
+    <string name="theme_aurora_desc">Dusk theme with deep blues and mystical purples</string>
+    <string name="theme_saanjh_desc">Dawn theme with warm oranges and gentle glow</string>
+</resources>

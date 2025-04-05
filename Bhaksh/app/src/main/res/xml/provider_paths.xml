@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Debug and log data -->
+    <files-path
+        name="debug"
+        path="debug/" />
+    <cache-path
+        name="logs"
+        path="logs/" />
+        
+    <!-- Shared storage for exportable content -->
+    <external-path
+        name="external_files"
+        path="Android/data/com.bhax.app/files/Downloads/" />
+        
+    <!-- Media files directory -->
+    <files-path
+        name="media"
+        path="media/" />
+        
+    <!-- Temporary shared files -->
+    <cache-path
+        name="shared"
+        path="shared/" />
+    <external-cache-path
+        name="external_shared"
+        path="shared/" />
+        
+    <!-- Debug data exports -->
+    <files-path
+        name="debug_exports"
+        path="debug/exports/" />
+    <external-files-path
+        name="external_debug"
+        path="debug/" />
+</paths>

@@ -1,0 +1,65 @@
+[
+  {
+    "pincode": "110001",
+    "areaName": "Connaught Place",
+    "latitude": 28.6304,
+    "longitude": 77.2177
+  },
+  {
+    "pincode": "400001",
+    "areaName": "Fort Mumbai",
+    "latitude": 18.9345,
+    "longitude": 72.8346
+  }
+][
+  {
+    "pincode": "515631",
+    "areaName": "Peddakotla B.O",
+    "latitude": "14.5689",
+    "longitude": "77.85624"
+  },
+  {
+    "pincode": "515631",
+    "areaName": "Pinnadhari B.O",
+    "latitude": "14.5281",
+    "longitude": "77.857014"
+  },
+  {
+    "pincode": "515631",
+    "areaName": "Yerraguntapalle B.O",
+    "latitude": "14.561111",
+    "longitude": "77.85715"
+  },
+  {
+    "pincode": "515581",
+    "areaName": "Obulareddipalli B.O",
+    "latitude": "14.2488",
+    "longitude": "78.2588"
+  },
+  {
+    "pincode": "515581",
+    "areaName": "Odulapalli B.O",
+    "latitude": "14.24555",
+    "longitude": "78.2477"
+  },
+  // ... (additional entries truncated for brevity)
+  {
+    "pincode": "534176",
+    "areaName": "Kavuluru BO",
+    "latitude": "16.6286",
+    "longitude": "80.5841"
+  },
+  {
+    "pincode": "813105",
+    "areaName": "Kathrang BO",
+    "latitude": "84.5270000",
+    "longitude": "24.2390000"
+  },
+  {
+    "pincode": "813105",
+    "areaName": "Mohiuddivpur BO",
+    "latitude": "84.5290000",
+    "longitude": "24.2354000"
+  },
+  // ... (remaining entries follow the same pattern)
+]

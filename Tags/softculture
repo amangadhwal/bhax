@@ -1,0 +1,542 @@
+
+https://softculture.cc/blog/entries/articles/osm-tags-2
+
+
+Soft Culture
+Aductors
+40 courses 
+Interior designers
+10 courses 
+Arhivas
+21 year
+Magazine
+Certificates
+To companies
+
+Open Street Map tags. Part 2
+Additional tags and tools for working with them
+Sergo Popov
+
+05/25/2022
+
+Read time: 15 min
+
+B previous part we talked about the main tags of OpenStreetMap and showed how to extract geodata on request. In this part, we will talk about new tags that will be useful in working with GIS, as well as about complex OSM requests and additional QuickOSM plugin settings for QGIS.
+
+1.
+Tools
+Combined queries
+1.1
+GIS analysis often requires objects that are indicated by different tags. At this point, there is a need for combined queries in the QuickOSM plugin. Such a request may contain two or more tags with different keys and values. 
+
+Например, вам нужна информация обо всех водоёмах и водных потоках на определённой территории. Для крупных водных объектов нужен тег <natural=water>, но только значения water будет недостаточно, так как есть ещё теги природных объектов, связанные с водой — wetland (болото или топь) и mud (заболоченная территория). Кроме ключа natural, водные объекты описывает ключ waterway, и в данном запросе потребуются все значения этого ключа. Итоговый запрос должен выглядеть так: <natural=water>, <natural=wetland>, <natural=mud>,<waterway=yes>. Все дополнительные теги нужно добавить командой Add (Добавить) в окне плагина, а также связать все теги логической операцией Or (Или). Если выбрать логическую операцию And (И), то будут выгружаться только объекты, у которых будут все запрошенные теги, а таких объектов может не быть. 
+
+
+
+An example of a request for water bodies in Berlin and the result of a request                                                                                                                                
+This was an example of a small request — only four tags, but sometimes the required request is large. For example, you need information about all landscaping facilities. This will include parks, squares, garden partnerships, forests, thickets of shrubs, meadows, protected areas. Depending on the specific place and its size, the space can describe from 10 to 25 tags. Calling so many tags in one request is irrational, because the QuickOSM plugin may not be able to. 
+
+But you can give the plugin more time to process the request: for this you need to change the number of seconds that the plugin spends on loading objects: 
+
+eng: Advanced → Timeout. 
+Russian: Additional settings → Request time.
+
+By default, the value is 25 — by changing it, you can set any value (we recommend up to 200 seconds). 
+
+However, even with an increased amount of loading time, QuickOSM may not cope with the task, so you can divide one large request into several small ones, for example — by key. For landscaping, the values of landuse (land use), natural (natural objects) and leisure (living places) are suitable. You need to select the key values on your own — depending on the goal, you may need agricultural territories, man-made objects or natural areas. 
+
+
+
+An example of a request for greening facilities in Berlin and the result of a request                                                                                                                                
+Geometry of objects
+1.2
+All objects in OSM have some kind of geometry: point, polygon, line or their multiversion. Some tags are able to describe the object of any geometry, some — only the geometry of one type. For example, the <buildings = X > tag can only be assigned to polygons and multi-polygons. You can also specify the type of geometry when requesting objects in the QuickOSM plugin in the Advanced section.
+
+Geometry Properties:
+1.3
+→ Point (node or point) — single object, of spatial characteristics has only coordinates.
+
+→ The line (way or line) — the relationship of two or more points has the direction and coordinates for each point.
+
+→ The polygon (area or closed way) — a closed line marked as an area has the same characteristics as the line, and also has an area. 
+
+Multilinium (multilinestring) — several lines connected to one object. It has the same spatial characteristics as the line. 
+
+→ Multipoligon (multiolygon) — complex-shaped polygon (for example, with a hole) or several polygons connected to one object. It has the same spatial characteristics as a polygon.
+
+To know the type of geometry characteristic of a particular tag is important for GIS analysis, because different types of studies require different objects. For example, you are going to analyze schools in some locality and want to calculate the density of schools, their average area and the total area of school territories. To analyze the average area, schools like buildings will be required, so you need the <buildings = school > tag: to calculate the area, you need objects in the form of polygons. To analyze the density of schools, objects in the form of points are needed: they can be unloaded using the tags <buildings = school > or <amenity = school >. But these tags can be incomplete, so it’s better to turn the tag <buildings = school > into points and create a density map. To analyze the total area of school territory, objects in the form of polygons are also needed: tags <amenity = school > and <landuse = school >.
+
+Attributes
+1.4
+Most OSM tags are the final pair of Key = Value (Key = Meaning), that is, Value (value) — occurs only once. But there are values that may have their own values. Such tags are called attributes. In the record, this can be imagined as follows: Key = Value = Attribute (Key = Meaning = Attribute). 
+
+OSM attributes are presented as separate keys. For example, <X = cycleway = X > may be the value of the highway key <highway = cycleway > and designate bike paths or be a separate key <cycleway = X > and designate individual elements of the bicycle infrastructure. 
+
+The request for such tags in the QuickOSM plugin is made in the same way as for regular keys, that is, the Key (Key) and Value (Knowledge) fields are filled. Attributes are rarely found and used, since additional information is already sewn into tag objects, and it can be extracted.
+
+
+2.
+Now the tags themselves
+B last article we dismantled the 9 base keys that are most likely to be needed for urban research. This time we will analyze 7 keys that are not as common as basic, but will be useful in specific areas of research: for example, to study the correlation between historical objects and objects of tourism infrastructure. 
+
+1. Territory boundaries: boundary
+2. Barrier Awards
+3. Historical objects and places: historic
+4. Tourism: tourism
+5. Shops: shop
+6. Offices: office
+7. Power Supply: Power
+
+Territory boundaries: boundary
+2.1
+When applied:
+This tag is used to mark the boundaries of individual territories.
+
+Type of geometry:
+Basically, the — line is less often than the line or point.
+
+
+Main boundaries
+
+→ administrative — any administrative border, that is, the border of the country, subject, district, district.
+
+→ admin_level — administrative border level, different across countries. 
+
+→ maritime — sea border.
+
+→ national_park — the border of a national park, reserve or reserve. 
+
+→ protected_area — border of protected areas, national park, cultural heritage site, marine, wildlife or cultural property protection zone.
+
+→ border_zone — border zone.
+
+→ hazard — the border of a particularly dangerous zone.
+
+Attributes admin_level 
+
+For the admin_level value, there are several attributes that describe the boundaries at different levels of — from country to city. Attributes differ for different countries due to different administrative-territorial divisions. More details about the levels of different countries can be read here. Here is a list of values for Russia:
+
+→ 2 — the border of the country. 
+
+→ 3 — the border of the federal district.
+
+→ 4 — the border of the subject of the federation.
+
+→ 5 — the border of associations of municipal districts / urban districts, administrative districts / districts, cities of federal significance.
+
+→ 6 — the border of municipal districts for subjects of the federation and municipal urban districts.  
+
+→ 7 — not used in Russia. 
+
+→ 8 — the border of urban and rural municipalities, intercity municipalities for cities of federal significance.
+
+→ 9 — the border of administrative districts for urban districts and settlements.
+
+→ 10 — the border of a settlement or microdistrict. A controversial tag that does not have a clear classification. It is rarely used. 
+
+If you want to learn more about the boundary tag or see all the available values, you can find them on wiki OSM website. You can also see the prevalence of tag subcategories for Russia or Of Europe.
+
+Barrier Awards
+2.2
+When applied:
+This tag denotes physical barriers that cannot be overcome.
+
+Type of geometry:
+Polygon, line and point.
+
+
+Linear barriers
+
+→ ditch — moat, ravine, ditch, trench.
+
+→ fence — fence, weave, hedge.
+
+→ wall — wall.
+
+→ hedge — green or hedge.
+
+Point barriers
+
+→ gate  — gate.
+
+→ bollard — fence post, pedestal. Used to restrict travel.
+
+→ kerb — curbstone.
+
+→ lift_gate — barrier.
+
+If you want to learn more about the barrier tag or see all the available values, you can find them on wiki OSM website. You can also see the prevalence of tag subcategories for Russia or Of Europe.
+
+Historical places and objects: historic
+2.3
+When applied:
+This tag denotes objects of historical or cultural value.
+
+Type of geometry:
+Point, line, polygon.
+
+
+The main historical objects
+
+→ memorial — a monument usually dedicated to a person or event.
+
+→ building — an indefinite historical building. Do not confuse with the <building = X > tag, which describes different types of buildings.
+
+→ castle — castle, fortress.
+
+→ ruins — ruins, leftovers.
+
+→ monument — large monument or memorial complex. 
+
+→ archaeological_site — archaeological site: excavations, settlement, burial.
+
+→ boundary_stone — historical marker.
+
+→ wayside_cross — cross, symbol of the Christian faith.
+
+→ wayside_shrine — religious shrine (including modern facilities).
+
+→ fort — defensive structure, fort.
+
+→ tower — historic tower. Do not confuse with the <man_made = tower > tag describing modern objects, and the <power = tower > tag that denotes the power lines.
+
+→ manor — historical estate or manor.
+
+→ church — historical church. Do not confuse with the tag <building = church >, denoting all churches.
+
+If you want to learn more about the historic tag or see all the available values, you can find them on wiki OSM website. You can also see the prevalence of tag subcategories for Russia or Of Europe.
+
+Tourism: tourism
+2.4
+When applied:
+This tag denotes places and objects of tourist value, as well as objects of tourist infrastructure services.
+
+Type of geometry:
+Point, polygon.
+
+
+The main objects of tourism
+
+→ attraction — any object of tourist interest.
+
+→ zoo — zoo.
+
+→ information — information kiosk, help desk for tourists.
+
+→ hotel — hotel, hotel, guesthouse. Also  this type of object can be described by <building = hotel >. 
+
+→ hostel — hostel. Do not be confused with the <tourism = hotel > and <building = hotel > tag, which are used to designate hotels. 
+
+→ motel — hotel for motorists.
+
+→ guest_house — guest house.
+
+→ chalet — removable house. 
+
+→ viewpoint — viewpoint, observation deck.
+
+→ picnic_site — a place for outdoor recreation, a picnic area.
+
+→ camp_site — tourist parking, tent camping.
+
+→ gallery — art gallery, art museum. 
+
+→ museum — any museum.
+
+→ artwork — art object that is publicly displayed.
+
+If you want to learn more about the tourism tag or see all the available values, you can find them on wiki OSM website. You can also see the prevalence of tag subcategories for Russia or Of Europe.
+
+Shops: shop
+2.5
+When applied:
+This tag denotes places and objects in which you can purchase goods or use services: a grocery store, car dealership or hairdresser. Partially duplicated by <building = supermarket > for any major store, <building = retail > for any store and <building = kiosk > for a small shopping building. Also duplicated by <amenity = X > for public facilities. 
+
+
+Type of geometry:
+Mostly the — point is less often a polygon.
+
+
+Universal stores
+
+→ yes — store without precise classification.
+
+→ department_store — department store, department stores. 
+
+→ general — store offering a set of basic products. In terms of meaning, it looks like the tag <shop = convenience >.
+
+→ kiosk — store selling newspapers, magazines, stationery, small industrial goods. This tag is not used to designate a small store. Do not confuse with the tag <building = kiosk > for a small shopping building. Similar objects can be described by <shop = newsagent >.
+
+→ mall — shopping center, mall, shopping complex.
+
+→ supermarket — mixed goods store, tag describes a variety of assortment. Do not confuse with the tag <building = supermarket > for any large store that describes the size of the building.
+
+→ wholesale — wholesale store. 
+
+Products
+
+→ convenience — a small store of local importance with basic products and everyday goods. It is used for most stores «Products » in sleeping areas.
+
+→ alcohol — liquor store. 
+
+→ bakery — bakery, bakery.
+
+→ butcher — meat or sausage store.
+
+→ confectionery — pastry shop. 
+
+→ dairy — dairy shop.   
+
+→ greengrocer — fruit and vegetable store. 
+
+→ seafood — fish and seafood store. 
+
+→ coffee — coffee shop. 
+
+→ tea — tea shop.
+
+→ wine — wine shop.
+
+Clothing, shoes, accessories
+
+→ clothes — clothing store.
+
+→ shoes — shoe store.
+
+→ jewelry — jewelry store. 
+
+→ fabric — fabric store.
+
+→ sewing — sewing store.
+
+→ watches — watch shop.
+
+→ charity — charity store. 
+
+→ second_hand — second-hand, commission store. 
+
+→ variety_store — low-cost goods store, sometimes a store with a fixed price for goods.
+
+Beauty and health
+
+→ beauty — beauty salon, manicure or spa studio, but not a hairdresser. 
+
+→ hairdresser — hairdresser, barber shop. 
+
+→ massage — massage parlor. 
+
+→ optician — optics.
+
+→ tattoo — tattoo parlor.
+
+→ perfumery — perfumery store. 
+
+→ chemist — household chemicals, hygiene items or cosmetics store. 
+
+→ cosmetics — cosmetics store. 
+
+→ medical_supply — medical products store.
+
+Household and construction products 
+
+→ bathroom_furnishing — plumbing shop.
+
+→ electrical — electrical equipment store. 
+
+→ hardware — hardware and fasteners store.
+
+→ houseware — a shop of dishes and cutlery.
+
+→ paint — paint shop.
+
+→ trade — wholesale warehouse.
+
+→ bed — a store of beds and mattresses.
+
+→ carpet — carpet store.
+
+→ curtain and window_blind — store curtains, Marquis, blinds, steer.
+
+→ furniture store — furniture store.
+
+→ doors — door store.
+
+→ flooring — flooring store.
+
+→ interior_decoration — interior store.
+
+→ kitchen — kitchen furniture store.
+
+→ lighting — lighting store. 
+
+→ garden_furniture — garden furniture store.
+
+Electronics, Sports and Transport
+
+→ computer — computer store.
+
+→ electronics — household appliances store. 
+
+→ radiotechnics — radio store.
+
+→ mobile_phone — store of mobile equipment, phones and accessories to them.
+
+→ camera — photographic equipment store. 
+
+→ car — car dealership.
+
+→ car_repair — car service, car repair shop. 
+
+→ car_parts — car shop. 
+
+→ motorcycle — a motorbike shop or service workshop.
+
+→ outdoor — store of goods for outdoor activities: tourism, mountaineering, fishing.
+
+→ fishing — fishing goods store.
+
+→ hunting — goods store for hunting.
+
+→ sports — sporting goods store. 
+
+Other stores
+
+→ craft — office store, needlework and hobby goods.
+
+→ musical_instrument — music tool store. 
+
+→ music — media store (drives, records, cassettes).
+
+→ photo — photo shop or photo workshop.
+
+→ books — bookstore.
+
+→ gift — gift shop, postcards and gift wrapping.
+
+→ newsagent — a small store selling newspapers, magazines, cigarettes and chocolate. Similar objects are described by <shop = kiosk >.
+
+→ stationery — stationery store, do not confuse with <shop = craft >.
+
+→ ticket — ticket kiosk. 
+
+→ laundry — laundry, dry cleaning.
+
+→ funeral_directors — ritual goods and services store.
+
+→ money_lender — microcredit points.
+
+→ outpost — point of delivery of goods from the online store.
+
+→ pawnbroker — pawnshop. 
+
+→ pet — pet store.
+
+→ religion — religious goods store, church shop. Do not confuse with the tag <building = religious >, which denotes a religious building without classification, and the tag <landuse = religious >, denoting the territory of religious sites. 
+
+→ toys — toy store. 
+
+→ weapons — firearms and cold steel store. 
+
+→ tobacco — smoking goods store.
+
+→ travel_agency — travel agency. 
+
+→ florist — flower shop.
+
+→ garden_centre — a store selling seeds, plants, garden and garden supplies.
+
+If you want to learn more about the tourism tag or see all the available values, you can find them on wiki OSM website. You can also see the prevalence of tag subcategories for Russia or Of Europe.
+
+Offices: office
+2.6
+When applied:
+This tag means — offices are mainly those in which services are provided.
+
+
+Type of geometry:
+Point, polygon.
+
+
+Main types of offices
+
+→ yes — universal tag for an indefinite office.
+
+→ company — office of any private company. 
+
+→ government — government agency. 
+
+→ insurance — office of an insurance company or insurance agent.
+
+→ estate_agent — real estate agency, realtor office.
+
+→ lawyer — lawyer's office.
+
+→ association — office of a non-profit organization: for example, sports, consumer, bicycle association.
+
+→ it — office of an IT company or IT specialist.
+
+→ telecommunication — telecommunications company office, communication operator lounge.
+
+→ employment_agency — labor exchange, personnel agency.
+
+→ logistics — office of a transport company or carrier.
+
+→ architect — architect office, architectural bureau or company.
+
+If you want to learn more about the office tag or see all the available values, you can find them on wiki OSM website. You can also see the prevalence of tag subcategories for Russia or Of Europe.
+
+Power Supply: Power
+2.7
+When applied:
+This tag denotes the infrastructure for generating and transmitting electricity.
+
+Type of geometry:
+Point, line, polygon.
+
+
+Main types of infrastructure 
+
+→ plant — place of energy production: usually a power plant, less often a thermal station.
+
+→ substance — substation for increasing or lowering electricity.
+
+→ generator — generator or installation that converts one type of energy into another.
+
+→ pole — low or medium voltage power line.
+
+→ tower — low or medium voltage power transmission support. Do not confuse with <man_made = tower > tags to designate a tower or tower and tag <historic = tower > to designate a historic tower.
+
+→ line — medium or high voltage power lines.
+
+→ minor_line — low or medium voltage power lines.
+
+If you want to learn more about the power tag or see all the available values, you can find them on wiki OSM website. You can also see the prevalence of tag subcategories for Russia or Of Europe.
+
+  
+More articles
+Soft Culture
+LLC «Soft Culture »
+Legal address:
+123103, Moscow,
+pr-ct Marshal Zhukov,
+d. 76, bldg. 2, apt. 239
+Ask questions
+Telegram
+Whatsapp
+
+hello@softculture.cc
+Follow us
+Telegram
+VKontakte
+Instagram
+Facebook
+YouTube
+Design — newpürple
+TIN: 7734402355
+OGRN: 1177746371880
+PPC: 773401001
+Processing policy
+personal data
+Public offer
+ 
+Our site uses cookies. Continuing to use the site, you consent to work with these files.

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Saanjh Theme (सांझ) - Dawn colors with warmth -->
+    <color name="saanjh_primary">#FF7E57</color>
+    <color name="saanjh_primary_dark">#CC5A3D</color>
+    <color name="saanjh_accent">#FFB74D</color>
+    <color name="saanjh_surface">#FFF3E0</color>
+    <color name="saanjh_background">#FFEBCC</color>
+    <color name="saanjh_text_primary">#442C2A</color>
+    <color name="saanjh_text_secondary">#795548</color>
+    <color name="saanjh_divider">#BDBDBD</color>
+
+    <!-- Aurora Theme - Dusk colors with mystical hue -->
+    <color name="aurora_primary">#5C6BC0</color>
+    <color name="aurora_primary_dark">#3949AB</color>
+    <color name="aurora_accent">#B39DDB</color>
+    <color name="aurora_surface">#303F9F</color>
+    <color name="aurora_background">#1A237E</color>
+    <color name="aurora_text_primary">#E8EAF6</color>
+    <color name="aurora_text_secondary">#C5CAE9</color>
+    <color name="aurora_divider">#4527A0</color>
+
+    <!-- Navigation Colors -->
+    <color name="navigation_item_active">#FFFFFF</color>
+    <color name="navigation_item_inactive">#78FFFFFF</color>
+    
+    <!-- Map Theme Colors -->
+    <color name="map_water">#1A237E</color>
+    <color name="map_land">#212121</color>
+    
+    <!-- Editor Colors -->
+    <color name="editor_highlight">#405C6BC0</color>
+    <color name="editor_selection">#265C6BC0</color>
+    <color name="editor_marker">#5C6BC0</color>
+</resources>

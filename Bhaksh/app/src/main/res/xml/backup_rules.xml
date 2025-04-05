@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Include non-sensitive app data -->
+    <include domain="sharedpref" path="app_preferences.xml"/>
+    <include domain="database" path="user_settings.db"/>
+    <include domain="file" path="downloads/"/>
+    
+    <!-- Exclude performance logs and debug data -->
+    <exclude domain="file" path="logs/"/>
+    <exclude domain="file" path="debug/"/>
+    <exclude domain="external" path="debug_dumps/"/>
+</full-backup-content>
